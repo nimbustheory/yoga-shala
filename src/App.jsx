@@ -14,8 +14,8 @@ import {
 } from "recharts";
 
 const STUDIO_CONFIG = {
-  name: "THE YOGA",
-  subtitle: "SHALA",
+  name: "THE YOGA SHALA",
+  subtitle: "STUDIO",
   tagline: "Community. Self-study. Lineage.",
   logoMark: "YS",
   description: "Ashtanga and Rocket Vinyasa in the U-District. Mysore program. Moon Days observed. Global teacher network. Honoring tradition since the beginning.",
@@ -1165,7 +1165,7 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{ width: 34, height: 34, borderRadius: 8, background: T.accent, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Bitter', serif", fontSize: 14, color: "#fff", fontWeight: 700 }}>{STUDIO_CONFIG.logoMark}</div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontFamily: "'Bitter', serif", fontSize: 18, lineHeight: 1, fontWeight: 600 }}>{STUDIO_CONFIG.name}</span>
+                <span style={{ fontFamily: "'Bitter', serif", fontSize: 15, lineHeight: 1, fontWeight: 600 }}>{STUDIO_CONFIG.name}</span>
                 <span style={{ fontSize: 8, color: "#71717a", textTransform: "uppercase", letterSpacing: "0.15em" }}>{STUDIO_CONFIG.subtitle}</span>
               </div>
             </div>
