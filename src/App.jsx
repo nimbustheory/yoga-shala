@@ -206,7 +206,7 @@ function PageHero({ image, title, subtitle }) {
   const isGradient = typeof image === "string" && image.startsWith("linear-gradient");
   const [imgError, setImgError] = useState(false);
   return (
-    <div style={{ position: "relative", width: "100%", height: 240, overflow: "hidden", marginBottom: 16 }}>
+    <div style={{ position: "relative", width: "100%", height: 312, overflow: "hidden", marginBottom: 16 }}>
       {isGradient || imgError ? (
         <div style={{ position: "absolute", inset: 0, background: image || GRADIENTS.home }} />
       ) : (
@@ -216,14 +216,14 @@ function PageHero({ image, title, subtitle }) {
             alt=""
             loading="lazy"
             onError={() => setImgError(true)}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.7)" }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.82)" }}
           />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.45) 100%)" }} />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0.32) 100%)" }} />
         </>
       )}
       <div style={{ position: "absolute", bottom: 24, left: 20, right: 20, zIndex: 2 }}>
         <h1 style={{ fontFamily: "'Bitter', serif", fontSize: "3.5rem", fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.05, textShadow: "0 2px 12px rgba(0,0,0,.3)" }}>{title}</h1>
-        {subtitle && <p style={{ fontSize: 15, color: "rgba(255,255,255,0.9)", margin: "8px 0 0", lineHeight: 1.4, maxWidth: "85%", textShadow: "0 1px 6px rgba(0,0,0,.3)" }}>{subtitle}</p>}
+        {subtitle && <p style={{ fontSize: 15, color: "rgba(255,255,255,0.9)", margin: "8px 0 0", lineHeight: 1.4, maxWidth: "95%", textShadow: "0 1px 6px rgba(0,0,0,.3)" }}>{subtitle}</p>}
       </div>
     </div>
   );
@@ -1059,7 +1059,6 @@ function NotificationsModal({ onClose }) {
 export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
   const [page, setPage] = useState(startInAdmin ? "admin-dashboard" : "home");
   const [isAdmin, setIsAdmin] = useState(!!startInAdmin);
-  const [showMore, setShowMore] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [classRegistrations, setClassRegistrations] = useState({});
@@ -1089,10 +1088,9 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
     { id: "classes", label: "Classes", icon: Wind },
     { id: "schedule", label: "Schedule", icon: Calendar },
     { id: "practice", label: "Practice", icon: TrendingUp },
-    { id: "more", label: "More", icon: Menu },
+    { id: "community", label: "Community", icon: Heart },
   ];
   const moreItems = [
-    { id: "community", label: "Community", icon: Heart },
     { id: "teachers", label: "Teachers", icon: Users },
     { id: "membership", label: "Membership", icon: CreditCard },
     { id: "events", label: "Events", icon: CalendarDays },
@@ -1130,7 +1128,6 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
     }
   };
 
-  const isMoreActive = moreItems.some(item => item.id === page);
   const unreadCount = 2;
 
   if (isAdmin) {
@@ -1182,29 +1179,12 @@ export default function App({ startInAdmin, onExitAdmin, onEnterAdmin }) {
           {renderPage()}
         </div>
 
-        {showMore && (
-          <div onClick={() => setShowMore(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 40 }}>
-            <div onClick={e => e.stopPropagation()} style={{ position: "absolute", bottom: 68, left: 16, right: 16, background: T.bgCard, borderRadius: 16, padding: "14px 12px", boxShadow: "0 8px 32px rgba(0,0,0,.15)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 6px 8px" }}><span style={{ fontFamily: "'Bitter', serif", fontSize: 20, fontWeight: 600 }}>More</span><button onClick={() => setShowMore(false)} style={{ padding: 4, borderRadius: 6, border: "none", background: "transparent", cursor: "pointer" }}><X size={18} color={T.textMuted} /></button></div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                {moreItems.map(item => {
-                  const active = page === item.id;
-                  return <button key={item.id} onClick={() => { setPage(item.id); setShowMore(false); }} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "14px 8px", borderRadius: 10, border: "none", cursor: "pointer", background: active ? T.accentGhost : T.bgDim, color: active ? T.accent : T.textMuted }}><item.icon size={22} /><span style={{ fontSize: 13, fontWeight: 600 }}>{item.label}</span></button>;
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-
         <nav style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "white", borderTop: "1px solid #eee", display: "flex", alignItems: "center", justifyContent: "space-around", zIndex: 50 }}>
-          {mainTabs.map(tab => {
-            const active = tab.id === "more" ? (isMoreActive || showMore) : page === tab.id;
-            return (
-              <button key={tab.id} onClick={() => tab.id === "more" ? setShowMore(true) : setPage(tab.id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, padding: "6px 12px", borderRadius: 10, border: "none", background: "transparent", cursor: "pointer", color: active ? T.accent : T.textFaint }}>
-                <tab.icon size={20} strokeWidth={active ? 2.5 : 2} /><span style={{ fontSize: 10, fontWeight: active ? 700 : 500 }}>{tab.label}</span>
-              </button>
-            );
-          })}
+          {mainTabs.map(tab => (
+            <button key={tab.id} onClick={() => setPage(tab.id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2, padding: "6px 12px", borderRadius: 10, border: "none", background: "transparent", cursor: "pointer", color: page === tab.id ? T.accent : T.textFaint }}>
+              <tab.icon size={20} strokeWidth={page === tab.id ? 2.5 : 2} /><span style={{ fontSize: 10, fontWeight: page === tab.id ? 700 : 500 }}>{tab.label}</span>
+            </button>
+          ))}
         </nav>
 
         {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
